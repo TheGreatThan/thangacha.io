@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Gacha Experience</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="header">
+            <h1 id="game-title">Ultimate Gacha</h1>
+            <div id="currency-display">
+                <span id="currency-amount">1000</span>
+                <span class="currency-icon">💎</span>
+            </div>
+            <div id="admin-button-container">
+                <button id="admin-toggle" class="small-button">⚙️</button>
+            </div>
+        </div>
+
+        <div id="main-content">
+            <div id="gacha-area">
+                <button id="gacha-button">OPEN</button>
+            </div>
+
+            <div id="gacha-animation" class="hidden">
+                <!-- Animation container -->
+                <div id="animation-container"></div>
+                <div id="result-display" class="hidden">
+                    <div id="rarity-banner"></div>
+                    <div id="item-name"></div>
+                    <button id="collect-button">COLLECT</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="inventory-button-container">
+            <button id="inventory-toggle">INVENTORY</button>
+        </div>
+
+        <div id="inventory-panel" class="hidden">
+            <h2>Inventory</h2>
+            <div class="tabs">
+                <button class="tab-button active" data-tab="titles">Titles</button>
+                <button class="tab-button" data-tab="backgrounds">Backgrounds</button>
+                <button class="tab-button" data-tab="fonts">Fonts</button>
+                <button class="tab-button" data-tab="colorschemes">Color Schemes</button>
+                <button class="tab-button" data-tab="specialeffects">Special Effects</button>
+                <button class="tab-button" data-tab="borders">Borders</button>
+                <button class="tab-button" data-tab="icons">Icons</button>
+            </div>
+            <div id="inventory-content">
+                <!-- Inventory items will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Admin Panel Modal -->
+        <div id="admin-panel" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Admin Panel</h2>
+                    <button id="close-admin" class="close-button">&times;</button>
+                </div>
+                <div id="admin-login" class="modal-section">
+                    <label for="admin-password">Password:</label>
+                    <input type="password" id="admin-password">
+                    <button id="admin-login-button">Login</button>
+                    <div id="login-error" class="error-message hidden">Incorrect password</div>
+                </div>
+                <div id="admin-controls" class="modal-section hidden">
+                    <div class="admin-tabs">
+                        <button class="admin-tab-button active" data-tab="items">Edit Items</button>
+                        <button class="admin-tab-button" data-tab="rates">Drop Rates</button>
+                    </div>
+                    
+                    <div id="admin-items-tab" class="admin-tab-content">
+                        <div class="admin-filter">
+                            <label for="admin-category">Category:</label>
+                            <select id="admin-category">
+                                <option value="Title">Titles</option>
+                                <option value="Background">Backgrounds</option>
+                                <option value="Font">Fonts</option>
+                                <option value="Color Scheme">Color Schemes</option>
+                                <option value="Special Effect">Special Effects</option>
+                                <option value="Border">Borders</option>
+                                <option value="Icon">Icons</option>
+                            </select>
+                        </div>
+                        <div id="admin-items-container">
+                            <!-- Items will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <div id="admin-rates-tab" class="admin-tab-content hidden">
+                        <div class="rates-section">
+                            <h3>Rarity Chances</h3>
+                            <div class="rarity-chances">
+                                <div class="rarity-chance-item">
+                                    <label for="chance-common">Common:</label>
+                                    <input type="number" id="chance-common" min="0" max="100" step="0.1">
+                                    <span>%</span>
+                                </div>
+                                <div class="rarity-chance-item">
+                                    <label for="chance-uncommon">Uncommon:</label>
+                                    <input type="number" id="chance-uncommon" min="0" max="100" step="0.1">
+                                    <span>%</span>
+                                </div>
+                                <div class="rarity-chance-item">
+                                    <label for="chance-rare">Rare:</label>
+                                    <input type="number" id="chance-rare" min="0" max="100" step="0.1">
+                                    <span>%</span>
+                                </div>
+                                <div class="rarity-chance-item">
+                                    <label for="chance-epic">Epic:</label>
+                                    <input type="number" id="chance-epic" min="0" max="100" step="0.1">
+                                    <span>%</span>
+                                </div>
+                                <div class="rarity-chance-item">
+                                    <label for="chance-legendary">Legendary:</label>
+                                    <input type="number" id="chance-legendary" min="0" max="100" step="0.1">
+                                    <span>%</span>
+                                </div>
+                                <div class="rarity-chance-item">
+                                    <label for="chance-mythical">Mythical:</label>
+                                    <input type="number" id="chance-mythical" min="0" max="100" step="0.1">
+                                    <span>%</span>
+                                </div>
+                                <div class="total-chance">
+                                    <span>Total:</span>
+                                    <span id="total-chance">0</span>
+                                    <span>%</span>
+                                </div>
+                                <button id="save-rarity-chances" class="admin-button">Save Changes</button>
+                            </div>
+                        </div>
+                        
+                        <div class="rates-section">
+                            <h3>Title Drop Weights</h3>
+                            <p class="section-info">Higher weight = higher chance to appear</p>
+                            <div class="title-weights-filter">
+                                <label for="weights-category">Filter by:</label>
+                                <select id="weights-category">
+                                    <option value="all">All Titles</option>
+                                    <option value="common">Common</option>
+                                    <option value="uncommon">Uncommon</option>
+                                    <option value="rare">Rare</option>
+                                    <option value="epic">Epic</option>
+                                    <option value="legendary">Legendary</option>
+                                    <option value="mythical">Mythical</option>
+                                </select>
+                            </div>
+                            <div id="title-weights-container">
+                                <!-- Title weights will be populated here -->
+                            </div>
+                            <button id="save-title-weights" class="admin-button">Save Weights</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="gacha.js"></script>
+    <script src="inventory.js"></script>
+    <script src="animations.js"></script>
+    <script src="main.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html> 
