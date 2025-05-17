@@ -1,7 +1,7 @@
 // Gacha game mechanics
 const gacha = {
     // Currency
-    currency: 1000,
+    currency: 10000000,
     
     // Cost per pull
     pullCost: 100,
